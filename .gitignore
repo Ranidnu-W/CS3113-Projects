@@ -1,0 +1,9 @@
+raylib_app
+raylib_app.exe
+*.o
+.DS_Store
+.vscode/*
+!.vscode/tasks.json
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json
+!.vscode/extensions.json
