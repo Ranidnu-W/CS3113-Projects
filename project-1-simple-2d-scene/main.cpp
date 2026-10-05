@@ -23,8 +23,8 @@ constexpr float BYAKUYA_HEIGHT     = 300.0f,
                 BYAKUYA_SPEED      = 0.4f,  // how fast he goes around the 8
                 FIGURE_8_WIDTH     = 200.0f,
                 FIGURE_8_HEIGHT    = 70.0f,
-                BYAKUYA_FLASH_TIME = 2.5f,  // seconds between flash steps
-                BYAKUYA_FLASH_JUMP = 1.2f;  // how far ahead on the 8 he jumps
+                BYAKUYA_FLASH_TIME = 2.5f,
+                BYAKUYA_FLASH_JUMP = 1.2f;
 
 // ichigo orbits around byakuya (wherever byakuya is)
 constexpr float ICHIGO_HEIGHT     = 280.0f,
@@ -32,7 +32,10 @@ constexpr float ICHIGO_HEIGHT     = 280.0f,
                 ICHIGO_RADIUS_X   = 300.0f,
                 ICHIGO_RADIUS_Y   = 100.0f,
                 ICHIGO_FLASH_TIME = 1.5f,
-                ICHIGO_FLASH_JUMP = 2.09f; // about a third of the circle 
+                ICHIGO_FLASH_JUMP = 2.09f;
+
+constexpr float AFTERIMAGE_ALPHA      = 150.0f,
+                AFTERIMAGE_FADE_SPEED = 2.0f;
 
 // senbonzakura petals orbit byakuya the other way and spin
 constexpr float PETAL_SIZE   = 220.0f,
@@ -68,16 +71,20 @@ Texture2D gIchigoTexture,
           gGetsugaTexture;
 
 // byakuya
-Vector2 gByakuyaPosition   = ORIGIN,
+Vector2 gByakuyaPosition    = ORIGIN,
+        gByakuyaOldPosition = ORIGIN,
         gByakuyaScale;
-float   gByakuyaPathTime   = 0.0f,
-        gByakuyaFlashTimer = 0.0f;
+float   gByakuyaPathTime    = 0.0f,
+        gByakuyaFlashTimer  = 0.0f,
+        gByakuyaAfterimage  = 0.0f;
 
 // ichigo
-Vector2 gIchigoPosition   = ORIGIN,
+Vector2 gIchigoPosition    = ORIGIN,
+        gIchigoOldPosition = ORIGIN,
         gIchigoScale;
-float   gIchigoAngle      = 0.0f,
-        gIchigoFlashTimer = 0.0f;
+float   gIchigoAngle       = 0.0f,
+        gIchigoFlashTimer  = 0.0f,
+        gIchigoAfterimage  = 0.0f;
 
 // petals
 Vector2 gPetalPosition   = ORIGIN;
@@ -136,16 +143,17 @@ void update()
     gPreviousTicks = ticks;
 
     /**
-     * BYAKUYA: figure 8 + flash step
+     * BYAKUYA: figure 8
      */
     gByakuyaPathTime   += BYAKUYA_SPEED * deltaTime;
     gByakuyaFlashTimer += deltaTime;
 
-    // every few seconds he flash steps (skips ahead on the 8)
     if (gByakuyaFlashTimer >= BYAKUYA_FLASH_TIME)
     {
-        gByakuyaFlashTimer = 0.0f;
-        gByakuyaPathTime  += BYAKUYA_FLASH_JUMP;
+        gByakuyaFlashTimer  = 0.0f;
+        gByakuyaOldPosition = gByakuyaPosition;
+        gByakuyaAfterimage  = 1.0f;
+        gByakuyaPathTime   += BYAKUYA_FLASH_JUMP;
     }
 
     // using sin(t) for x and sin(2t) to get the figure 8 shape
@@ -154,16 +162,21 @@ void update()
         ORIGIN.y + FIGURE_8_HEIGHT * sin(2.0f * gByakuyaPathTime)
     };
 
+    gByakuyaAfterimage -= AFTERIMAGE_FADE_SPEED * deltaTime;
+    if (gByakuyaAfterimage < 0.0f) gByakuyaAfterimage = 0.0f;
+
     /**
-     * ICHIGO: orbits byakuya + flash step
+     * ICHIGO: orbits byakuya
      */
     gIchigoAngle      += ICHIGO_SPEED * deltaTime;
     gIchigoFlashTimer += deltaTime;
 
     if (gIchigoFlashTimer >= ICHIGO_FLASH_TIME)
     {
-        gIchigoFlashTimer = 0.0f;
-        gIchigoAngle     += ICHIGO_FLASH_JUMP;
+        gIchigoFlashTimer  = 0.0f;
+        gIchigoOldPosition = gIchigoPosition;
+        gIchigoAfterimage  = 1.0f;
+        gIchigoAngle      += ICHIGO_FLASH_JUMP;
     }
 
     // orbit is relative to byakuya's position, not the middle of the screen
@@ -171,6 +184,9 @@ void update()
         gByakuyaPosition.x + ICHIGO_RADIUS_X * cos(gIchigoAngle),
         gByakuyaPosition.y + ICHIGO_RADIUS_Y * sin(gIchigoAngle)
     };
+
+    gIchigoAfterimage -= AFTERIMAGE_FADE_SPEED * deltaTime;
+    if (gIchigoAfterimage < 0.0f) gIchigoAfterimage = 0.0f;
 
     /**
      * SENBONZAKURA: petals orbit byakuya and spin
@@ -245,6 +261,27 @@ void render()
         gByakuyaScale.y / 2.0f
     };
 
+    Rectangle byakuyaAfterimageArea = {
+        gByakuyaOldPosition.x,
+        gByakuyaOldPosition.y,
+        gByakuyaScale.x,
+        gByakuyaScale.y
+    };
+
+    Color byakuyaAfterimageTint = {
+        255, 255, 255,
+        static_cast<unsigned char>(AFTERIMAGE_ALPHA * gByakuyaAfterimage)
+    };
+
+    DrawTexturePro(
+        gByakuyaTexture,
+        byakuyaTextureArea,
+        byakuyaAfterimageArea,
+        byakuyaOrigin,
+        0.0f,
+        byakuyaAfterimageTint
+    );
+
     DrawTexturePro(
         gByakuyaTexture,
         byakuyaTextureArea,
@@ -304,6 +341,27 @@ void render()
         gIchigoScale.x / 2.0f,
         gIchigoScale.y / 2.0f
     };
+
+    Rectangle ichigoAfterimageArea = {
+        gIchigoOldPosition.x,
+        gIchigoOldPosition.y,
+        gIchigoScale.x,
+        gIchigoScale.y
+    };
+
+    Color ichigoAfterimageTint = {
+        255, 255, 255,
+        static_cast<unsigned char>(AFTERIMAGE_ALPHA * gIchigoAfterimage)
+    };
+
+    DrawTexturePro(
+        gIchigoTexture,
+        ichigoTextureArea,
+        ichigoAfterimageArea,
+        ichigoOrigin,
+        0.0f,
+        ichigoAfterimageTint
+    );
 
     DrawTexturePro(
         gIchigoTexture,
