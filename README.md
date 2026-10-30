@@ -4,6 +4,7 @@
 |---|---|
 | Project 1: Simple 2D Scene | [`project-1-simple-2d-scene/`](project-1-simple-2d-scene) |
 | Project 2: Pong | [`project-2-pong/`](project-2-pong) |
+| Project 3: Lunar Lander | [`project-3-lunar-lander/`](project-3-lunar-lander) |
 
 Build and run any project: `cd <project-folder> && make run`
 
@@ -17,3 +18,6 @@ Project 1:
 Project 2:
 - All images (oscilloscope screen, paddles, ball, win banners) are original images made for this project
 - Theme inspired by *Tennis for Two* (1958), the oscilloscope game that came before Pong
+
+Project 3:
+- All images (ship sprite sheet, moon rocks, landing pads, background, banners, fuel bar) are original images made for this project
