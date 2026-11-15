@@ -46,6 +46,11 @@ ifeq ($(wildcard CS3113/LevelC.cpp),CS3113/LevelC.cpp)
     SRCS += CS3113/LevelC.cpp
 endif
 
+# Add the LevelD library if it exists
+ifeq ($(wildcard CS3113/LevelD.cpp),CS3113/LevelD.cpp)
+    SRCS += CS3113/LevelD.cpp
+endif
+
 # Add the EndScreen library if it exists
 ifeq ($(wildcard CS3113/EndScreen.cpp),CS3113/EndScreen.cpp)
     SRCS += CS3113/EndScreen.cpp

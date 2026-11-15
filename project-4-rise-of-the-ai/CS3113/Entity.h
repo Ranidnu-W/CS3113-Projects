@@ -149,6 +149,8 @@ public:
         { mPosition = newPosition;                 }
     void setMovement(Vector2 newMovement)
         { mMovement = newMovement;                 }
+    void setVelocity(Vector2 newVelocity)
+        { mVelocity = newVelocity;                 }
     void setAcceleration(Vector2 newAcceleration)
         { mAcceleration = newAcceleration;         }
     void setScale(Vector2 newScale)

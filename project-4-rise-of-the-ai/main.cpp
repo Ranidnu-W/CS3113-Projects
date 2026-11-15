@@ -12,6 +12,7 @@
 #include "CS3113/LevelA.h"
 #include "CS3113/LevelB.h"
 #include "CS3113/LevelC.h"
+#include "CS3113/LevelD.h"
 #include "CS3113/EndScreen.h"
 
 // Global Constants
@@ -85,6 +86,7 @@ void initialise()
     gLevels[LEVEL_A] = new LevelA(ORIGIN, "#8FD3FF");
     gLevels[LEVEL_B] = new LevelB(ORIGIN, "#FFD8A8");
     gLevels[LEVEL_C] = new LevelC(ORIGIN, "#3B4A6B");
+    gLevels[LEVEL_D] = new LevelD(ORIGIN, "#4A2040");
     gLevels[WIN]     = new EndScreen(ORIGIN, "#1D3557", "assets/you_win.png");
     gLevels[LOSE]    = new EndScreen(ORIGIN, "#3D0000", "assets/you_lose.png");
 
@@ -105,6 +107,7 @@ void processInput()
     if      (IsKeyPressed(KEY_ONE))   switchToScene(LEVEL_A);
     else if (IsKeyPressed(KEY_TWO))   switchToScene(LEVEL_B);
     else if (IsKeyPressed(KEY_THREE)) switchToScene(LEVEL_C);
+    else if (IsKeyPressed(KEY_FOUR))  switchToScene(LEVEL_D);
 
     if (IsKeyPressed(KEY_ENTER))
     {

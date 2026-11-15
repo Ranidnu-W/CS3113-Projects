@@ -117,7 +117,7 @@ void LevelC::update(float deltaTime)
     // reached the right end of the map
     if (mGameState.player->getPosition().x >
         mGameState.map->getRightBoundary() - TILE_DIMENSION * 2.0f)
-        mGameState.nextSceneID = WIN;
+        mGameState.nextSceneID = LEVEL_D;
 }
 
 void LevelC::render()

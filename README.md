@@ -25,7 +25,8 @@ Project 3:
 
 Project 4:
 - Tiles, characters (astronaut + robots) and heart: [Pixel Platformer](https://kenney.nl/assets/pixel-platformer) by Kenney, [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
-- Sound effects (jump, hit, level clear): [Digital Audio](https://kenney.nl/assets/digital-audio) by Kenney, [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+- Sound effects (jump, hit, level clear, boss stomp): [Digital Audio](https://kenney.nl/assets/digital-audio) by Kenney, [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 - Font used for the menu / end screen images: [Kenney Fonts](https://kenney.nl/assets/kenney-fonts) by Kenney, [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 - Level music: "Hustle" Kevin MacLeod ([incompetech.com](https://incompetech.com)), licensed under [Creative Commons: By Attribution 4.0](http://creativecommons.org/licenses/by/4.0/)
+- Boss level music: "Boogie Party" Kevin MacLeod ([incompetech.com](https://incompetech.com)), licensed under [Creative Commons: By Attribution 4.0](http://creativecommons.org/licenses/by/4.0/)
 - Menu music: "Dirt Rhodes" Kevin MacLeod ([incompetech.com](https://incompetech.com)), licensed under [Creative Commons: By Attribution 4.0](http://creativecommons.org/licenses/by/4.0/)
